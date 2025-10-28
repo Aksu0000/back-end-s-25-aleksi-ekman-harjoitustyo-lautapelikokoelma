@@ -1,28 +1,43 @@
 package backend25.boardgames.domain;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "application_user")
+@Table(name="application_user")
 public class ApplicationUser {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String username;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false, updatable = false)
+	private Long id;
 
-    @Column(name = "application_password")
-    private String password;
+    @Column(name = "firstname", nullable = false)
+    private String firstName;
 
-    @Column(name = "application_role")
-    private String role;
+    @Column(name = "lastname", nullable = false)
+    private String lastName;
+	
+	// Username with unique constraint
+	@Column(name = "username", nullable = false, unique = true)
+	private String username;
+	
+	@Column(name = "application_password", nullable = false)
+	private String passwordHash;
+	
+	@Column(name = "application_role", nullable = false)
+	private String role;
 
-    @OneToMany(mappedBy = "addedBy")
-    private List<Game> games;
+    public ApplicationUser() {
+    }
 
-    public ApplicationUser() {}
-
-        // getterit ja setterit
+    public ApplicationUser(String firstName, String lastName, String username, String passwordHash, String role) {
+        super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.role = role;
+    }
 
     public Long getId() {
         return id;
@@ -30,6 +45,22 @@ public class ApplicationUser {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getUsername() {
@@ -40,12 +71,12 @@ public class ApplicationUser {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public String getRole() {
@@ -56,13 +87,10 @@ public class ApplicationUser {
         this.role = role;
     }
 
-    public List<Game> getGames() {
-        return games;
+    @Override
+    public String toString() {
+        return "AppUser [id=" + id + ", username=" + username + ", passwordHash=" + passwordHash + ", role=" + role
+                + "]";
     }
-
-    public void setGames(List<Game> games) {
-        this.games = games;
-    }
-
+    
 }
-

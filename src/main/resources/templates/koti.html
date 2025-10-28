@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <title>Lautapelikokoelma</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+    <!-- Sisällytä navigointipalkki -->
+    <div th:replace="fragments/navbar :: mainNavbar"></div>
+
+    <div class="container text-center mt-5">
+        <h1 class="mb-3" th:text="${message}">Welcome message</h1>
+        <p class="lead" th:text="${description}">Site description.</p>
+    </div>
+
+    <h1>Pelihaku</h1>
+    <form action="#" th:action="@{/search}" method="get">
+        <input type="text" name="query" placeholder="Hae pelejä..." />
+        <button type="submit">Hae</button>
+    </form>
+
+    <div>
+        <h2>Hakutulokset</h2>
+        <ul>
+            <li th:each="game : ${games}">
+                <span th:text="${game.title}">Pelin nimi</span>
+                <span th:text="${game.publicationYear}"></span>
+                
+                <!-- Lisää omaan kokoelmaan vain jos kirjautunut -->
+                <form th:if="${#authorization.expr('isAuthenticated()')}" th:action="@{/games/add}" method="post">
+                    <input type="hidden" th:name="gameId" th:value="${game.id}" />
+                    <button type="submit">Lisää kokoelmaan</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+</body>
+
+</html>

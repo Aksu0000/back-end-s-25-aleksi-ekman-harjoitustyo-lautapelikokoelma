@@ -1,24 +1,31 @@
 package backend25.boardgames.domain;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
+@Table(name = "genre")
 public class Genre {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "genre_name")
+    @Column(name = "genre_name", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "genres")
-    private Set<Game> games = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "genre")
+    @JsonIgnore
+    private List<Boardgame> boardgames;
 
     public Genre() {}
 
-        // getterit ja setterit
+    public Genre(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -36,13 +43,11 @@ public class Genre {
         this.name = name;
     }
 
-    public Set<Game> getGames() {
-        return games;
+    public List<Boardgame> getBoardgames() {
+        return boardgames;
     }
 
-    public void setGames(Set<Game> games) {
-        this.games = games;
+    public void setBoardgames(List<Boardgame> boardgames) {
+        this.boardgames = boardgames;
     }
-
-    
 }

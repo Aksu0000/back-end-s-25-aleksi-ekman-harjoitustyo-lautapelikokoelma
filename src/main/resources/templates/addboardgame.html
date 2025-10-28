@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <title>Lisää lautapeli</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+    <!-- Sisällytä navigointipalkki -->
+    <div th:replace="fragments/navbar :: mainNavbar"></div>
+
+    <div class="container text-center mt-5">
+        <h2 class="mb-3">Lisää uusi lautapeli kokoelmaan</h2>
+    </div>
+
+    <div>
+        <form th:object="${boardgame}" th:action="@{/saveBoardgame}" action="#" method="post">
+            <label for="title">Nimi</label>
+            <input type="text" id="title" th:field="*{title}" />
+            <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error</div>
+            <br>
+            <label for="publicationYear">Julkaisuvuosi</label>
+            <input type="text" id="publicationYear" th:field="*{publicationYear}" />
+            <div th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}">Error</div>
+            <br>
+            <label for="minPlayers">Pelaajien miniminäärä</label>
+            <input type="text" id="minPlayers" th:field="*{minPlayers}" />
+            <div th:if="${#fields.hasErrors('minPlayers')}" th:errors="*{minPlayers}">Error</div>
+            <br>
+            <label for="maxPlayers">Pelaajien maksimimäärä</label>
+            <input type="text" id="maxPlayers" th:field="*{maxPlayers}" />
+            <div th:if="${#fields.hasErrors('maxPlayers')}" th:errors="*{maxPlayers}">Error</div>
+            <br>
+            <label for="genrelist">Genre</label>
+            <select id="genrelist" th:field="*{genre}" class="form-control">
+                <option th:each="genre: ${genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
+            </select>
+            <br>
+            <input type="submit" value="Tallenna lautapeli" class="btn btn-primary"></input>
+            <!-- <a th:href="@{/boardgamelist}" class="btn btn-secondary">Takaisin</a> -->
+            <!-- <label for="price">Price</label>
+          <input type="number" step="0.01" id="price" th:field="*{price}" /> -->
+        </form>
+    </div>
+    </div>
+
+</body>
+
+</html>
