@@ -21,19 +21,19 @@
         <input type="hidden" th:field="*{id}" />
 
         <label for="title" class="form-label">Nimi</label>
-        <input type="text" id="title" th:field="*{title}" />
+        <input type="text" id="title" th:field="*{title}" class="form-control" />
         <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
         <br>
         <label for="publicationYear" class="form-label">Julkaisuvuosi</label>
-        <input type="text" id="publicationYear" th:field="*{publicationYear}" />
+        <input type="text" id="publicationYear" th:field="*{publicationYear}" class="form-control" />
         <div class="text-danger" th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}"></div>
         <br>
         <label for="minPlayers" class="form-label">Pelaajien miniminäärä</label>
-        <input type="text" id="minPlayers" th:field="*{minPlayers}" />
+        <input type="text" id="minPlayers" th:field="*{minPlayers}" class="form-control" />
         <div class="text-danger" th:if="${#fields.hasErrors('minPlayers')}" th:errors="*{minPlayers}"></div>
         <br>
         <label for="maxPlayers" class="form-label">Pelaajien maksimimäärä</label>
-        <input type="text" id="maxPlayers" th:field="*{maxPlayers}" />
+        <input type="text" id="maxPlayers" th:field="*{maxPlayers}" class="form-control" />
         <div class="text-danger" th:if="${#fields.hasErrors('maxPlayers')}" th:errors="*{maxPlayers}"></div>
         <br>
         <label for="genrelist" class="form-label">Genre</label>
@@ -41,7 +41,14 @@
             <option th:each="genre: ${genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
         </select>
         <br>
-        <input type="submit" value="Tallenna" class="btn btn-primary"></input>
+        <label for="imageUrl" class="form-label">Kuvan URL</label>
+        <input type="text" id="imageUrl" th:field="*{imageUrl}" class="form-control" />
+        <br>
+        <span><input type="submit" value="Tallenna" class="btn btn-primary"></input>
+            <a th:href="@{/boardgamelist}">
+                <button type="button" class="btn btn-danger">Takaisin</button>
+            </a>
+        </span>
         <!-- <a th:href="@{/boardgamelist}" value="Takaisin" class="btn btn-secondary">Takaisin</a> -->
     </form>
     </div>

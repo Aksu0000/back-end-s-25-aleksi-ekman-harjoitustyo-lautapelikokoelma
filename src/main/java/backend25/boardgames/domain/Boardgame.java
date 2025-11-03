@@ -1,7 +1,5 @@
 package backend25.boardgames.domain;
 
-import backend25.boardgames.domain.Genre;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -15,6 +13,9 @@ public class Boardgame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @NotEmpty(message = "{NotEmpty.boardgame.title}")
     @Size(min = 1, max = 250, message = "{Size.boardgame.title}")
@@ -38,17 +39,19 @@ public class Boardgame {
 
     @NotNull(message = "{NotNull.boardgame.genre}")
     @ManyToOne
-    @JoinColumn(name="genre_id")
+    @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    public Boardgame() {}
+    public Boardgame() {
+    }
 
-    public Boardgame(String title, Integer publicationYear, Integer minPlayers, Integer maxPlayers, Genre genre) {
+    public Boardgame(String title, Integer publicationYear, Integer minPlayers, Integer maxPlayers, Genre genre, String imageUrl) {
         this.title = title;
         this.publicationYear = publicationYear;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.genre = genre;
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
@@ -59,9 +62,18 @@ public class Boardgame {
         this.id = id;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -69,6 +81,7 @@ public class Boardgame {
     public Integer getPublicationYear() {
         return publicationYear;
     }
+
     public void setPublicationYear(Integer publicationYear) {
         this.publicationYear = publicationYear;
     }
@@ -76,6 +89,7 @@ public class Boardgame {
     public Integer getMinPlayers() {
         return minPlayers;
     }
+
     public void setMinPlayers(Integer minPlayers) {
         this.minPlayers = minPlayers;
     }
@@ -83,11 +97,12 @@ public class Boardgame {
     public Integer getMaxPlayers() {
         return maxPlayers;
     }
+
     public void setMaxPlayers(Integer maxPlayers) {
         this.maxPlayers = maxPlayers;
     }
 
-     public Genre getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
@@ -98,7 +113,7 @@ public class Boardgame {
     @Override
     public String toString() {
         return title + publicationYear + " - " +
-           (genre != null ? genre.getName() : "Ei genreä");
+                (genre != null ? genre.getName() : "Ei genreä");
     }
-    
+
 }

@@ -20,33 +20,37 @@
     <br>
 
     <table class="table table-striped">
-            <tr>
-                <th>Nimi</th>
-                <th>Julkaisuvuosi</th>
-                <th>Pelaajien miniminäärä</th>
-                <th>Pelaajien maksimimäärä</th>
-                <th>Category</th>
-                <!-- <th>Price</th> -->
-                <th></th>
-                <th></th>
-            </tr>
-            <tr th:each="boardgame : ${boardgames}">
-                <td th:text="${boardgame.title}">Nimi</td>
-                <td th:text="${boardgame.publicationYear}">Julkaisuvuosi</td>
-                <td th:text="${boardgame.minPlayers}">Pelaajien miniminäärä</td>
-                <td th:text="${boardgame.maxPlayers}">Pelaajien maksimimäärä</td>
-                <td th:text="${boardgame.genre.name}"></td>
-                <td sec:authorize="hasAuthority('ADMIN')">
-                    <a th:href="@{/deleteBoardgame/{id}(id=${boardgame.id})}" class="btn btn-danger">Poista</a>
-                </td>
-                <td sec:authorize="hasAuthority('ADMIN')">
-                    <a th:href="@{/editBoardgame/{id}(id=${boardgame.id})}" class="btn btn-warning">Muokkaa</a>
-                </td>
-            </tr>
-        </table>
-        <a sec:authorize="hasAuthority('ADMIN')" href="/add" class="btn btn-success">Lisää</a>
-        <br>
-        <!-- <a th:href="@{/koti}" class="btn btn-info mt-3">Etusivulle</a> -->
+        <tr>
+            <th>Kuva</th>
+            <th>Nimi</th>
+            <th>Julkaisuvuosi</th>
+            <th>Pelaajien miniminäärä</th>
+            <th>Pelaajien maksimimäärä</th>
+            <th>Kategoria</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr th:each="boardgame : ${boardgames}">
+            <td>
+                <img th:src="${boardgame.imageUrl}" alt="Kuva" width="80" height="80"
+                    style="object-fit: cover; border-radius: 10px;">
+            </td>
+            <td th:text="${boardgame.title}">Nimi</td>
+            <td th:text="${boardgame.publicationYear}">Julkaisuvuosi</td>
+            <td th:text="${boardgame.minPlayers}">Pelaajien miniminäärä</td>
+            <td th:text="${boardgame.maxPlayers}">Pelaajien maksimimäärä</td>
+            <td th:text="${boardgame.genre.name}"></td>
+            <td sec:authorize="hasAuthority('ADMIN')">
+                <a th:href="@{/deleteBoardgame/{id}(id=${boardgame.id})}" class="btn btn-danger">Poista</a>
+            </td>
+            <td sec:authorize="hasAuthority('ADMIN')">
+                <a th:href="@{/editBoardgame/{id}(id=${boardgame.id})}" class="btn btn-warning">Muokkaa</a>
+            </td>
+        </tr>
+    </table>
+    <a sec:authorize="hasAuthority('ADMIN')" href="/add" class="btn btn-success">Lisää</a>
+    <br>
+    <!-- <a th:href="@{/koti}" class="btn btn-info mt-3">Etusivulle</a> -->
     </div>
 
 </body>

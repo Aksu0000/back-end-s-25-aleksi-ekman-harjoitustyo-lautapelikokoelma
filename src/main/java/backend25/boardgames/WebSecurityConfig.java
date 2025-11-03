@@ -29,11 +29,12 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**")) // CSRF pois vain REST API:ltä
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/koti", "/login").permitAll()
                         .requestMatchers("/deleteGame/**").hasAuthority("ADMIN") // MVC DELETE
-                        .requestMatchers(HttpMethod.DELETE, "/api/books/**").hasAuthority("ADMIN") // REST DELETE
-                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/boardgames/**").hasAuthority("ADMIN") // REST DELETE
+                        .requestMatchers("/api/**").permitAll()  // muut API:t sallitaan kaikille
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form
@@ -54,7 +55,7 @@ public class WebSecurityConfig {
                             response.sendRedirect("/koti");
                         })
                 );
-                //.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
+                
                 //.headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
         return http.build();

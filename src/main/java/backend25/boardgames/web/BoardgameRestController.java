@@ -11,34 +11,43 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import backend25.boardgames.domain.Boardgame;
 import backend25.boardgames.domain.BoardgameRepository;
+import backend25.boardgames.domain.Genre;
+import backend25.boardgames.domain.GenreRepository;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 public class BoardgameRestController {
     private final BoardgameRepository boardgameRepository;
+    private final GenreRepository genreRepository;
 
-	public BoardgameRestController(BoardgameRepository boardgameRepository) {
+	public BoardgameRestController(BoardgameRepository boardgameRepository, GenreRepository genreRepository) {
         this.boardgameRepository = boardgameRepository;
+        this.genreRepository = genreRepository;
     }
     //hae kaikki lautapelit
-    @GetMapping("/boardgames")
+    @GetMapping("/api/boardgames")
     public Iterable<Boardgame> getBoardgames() {
         return boardgameRepository.findAll();
     }
 
     //hae lautapeli id:n perusteella
-    @GetMapping("/boardgames/{id}")
+    @GetMapping("/api/boardgames/{id}")
     public Boardgame getBoardgameById(@PathVariable("id") Long boardgameId) {
         return boardgameRepository.findById(boardgameId).orElse(null);
     }
 
-    @PostMapping("/boardgames")
-    public Boardgame addBoardgame(@RequestBody Boardgame newBoardgame) {
-        return boardgameRepository.save(newBoardgame);
-    }
+    @PostMapping("/api/boardgames")
+public Boardgame addBoardgame(@RequestBody Boardgame newBoardgame) {
+    Genre genre = genreRepository.findById(newBoardgame.getGenre().getId())
+        .orElseThrow(() -> new RuntimeException("Genre not found"));
+    newBoardgame.setGenre(genre);
+    return boardgameRepository.save(newBoardgame);
+}
+
     
     // päivitä olemassa oleva lautapeli JSON:illa
-    @PutMapping("/boardgames/{id}")
+    @PutMapping("/api/boardgames/{id}")
     public ResponseEntity<Boardgame> editBoardgame(@RequestBody Boardgame editedBoardgame, @PathVariable Long id) {
         return boardgameRepository.findById(id)
                 .map(boardgame -> {
@@ -50,8 +59,8 @@ public class BoardgameRestController {
     }
 
     // Poista lautapeli ID:n perusteella
-    @PreAuthorize("hasAuthorities('ADMIN')")
-    @DeleteMapping("/boardgames/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @DeleteMapping("/api/boardgames/{id}")
     public ResponseEntity<Void> deleteBoardgame(@PathVariable("id") Long boardgameId) {
         if (boardgameRepository.existsById(boardgameId)) {
             boardgameRepository.deleteById(boardgameId);
