@@ -10,7 +10,7 @@ import backend25.boardgames.domain.BoardgameRepository;
 
 import java.util.List;
 
-@Controller
+@Controller     // Spring MVC -kontrolleri, joka käsittelee web-pyyntöjä.
 public class KotiController {
 
     private final BoardgameRepository boardgameRepository;
@@ -20,18 +20,18 @@ public class KotiController {
     }
 
     @GetMapping({"/", "/koti"})
-    public String koti(@RequestParam(value = "query", required = false) String query,Model model) {
-        model.addAttribute("message", "Tervetuloa lautapelikokoelman pariin!");
-        model.addAttribute("description", "Täältä löydät lautapelejä moneen makuun.");
+    public String koti(@RequestParam(value = "query", required = false) String query,Model model) {     // Käsittelee GET-pyynnön polkuun "/" tai "/koti", query(kysely)-parametri on valinnainen ja voi sisältää hakusanan
+        model.addAttribute("message", "Tervetuloa lautapelikokoelman pariin!");     // Lisätään viesti näkymään
+        model.addAttribute("description", "Täältä löydät lautapelejä moneen makuun.");      // Lisätään kuvausteksti näkymään
 
         List<Boardgame> games;
         if (query != null && !query.isBlank()) {
-            games = boardgameRepository.findByTitleContainingIgnoreCase(query);
+            games = boardgameRepository.findByTitleContainingIgnoreCase(query);     // Jos hakusana on annettu, haetaan pelit, joiden nimi sisältää hakusanan (ei kirjainkoolla väliä)
         } else {
-            games = List.of(); // tyhjä lista
+            games = List.of();      // Muuten palautetaan tyhjä lista
         }
 
-        model.addAttribute("games", games);
-        return "koti";
+        model.addAttribute("games", games);     // Lisätään pelit näkymään
+        return "koti";      // Palautetaan näkymä koti.html
     }
 }

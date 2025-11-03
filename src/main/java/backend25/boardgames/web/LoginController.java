@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
-    @GetMapping("/login")
+    @GetMapping("/login")       // Käsittelee GET-pyynnön polkuun /login
     public String login() {
-        return "login"; // thymeleaf login.html
+        return "login"; // Palauttaa näkymän login.html (Thymeleaf). Tämä näkymä sisältää kirjautumislomakkeen
     }
 }

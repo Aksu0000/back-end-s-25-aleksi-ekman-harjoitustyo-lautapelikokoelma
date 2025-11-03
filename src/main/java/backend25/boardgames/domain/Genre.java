@@ -2,9 +2,9 @@ package backend25.boardgames.domain;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore; // Tuodaan Jackson-anotointi, jolla voidaan estää tietojen sarjoittaminen JSONiksi.
 
-import jakarta.persistence.*;
+import jakarta.persistence.*; // Tuodaan JPA-anotoinnit tietokantataulujen ja -suhteiden määrittelyyn.
 
 @Entity
 @Table(name = "genre")
@@ -17,7 +17,7 @@ public class Genre {
     @Column(name = "genre_name", nullable = false, unique = true)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "genre")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "genre")   // Lista Boardgame-olioista, jotka kuuluvat tähän genreen. @OneToMany kertoo, että yhdellä genrellä voi olla monta peliä. cascade = ALL tarkoittaa, että genren muutokset vaikuttavat myös peleihin (esim. poisto). mappedBy = "genre" määrittää, että Boardgame-olion genre-ominaisuus hallitsee suhdetta. @JsonIgnore estää sen, että JSON-vastauksessa tämä lista aiheuttaisi loputtoman silmukan.
     @JsonIgnore
     private List<Boardgame> boardgames;
 

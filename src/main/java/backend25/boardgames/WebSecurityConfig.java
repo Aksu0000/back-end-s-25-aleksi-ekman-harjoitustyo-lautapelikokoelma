@@ -11,41 +11,41 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
-@EnableMethodSecurity(securedEnabled = true)
+@Configuration      // Merkitsee luokan konfiguraatioluokaksi Springille.
+@EnableMethodSecurity(securedEnabled = true)        // Mahdollistaa @PreAuthorize ja @Secured -anotaatiot metoditasolla.
 public class WebSecurityConfig {
 
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;         // Palvelu, joka lataa käyttäjät tietokannasta autentikointia varten.
 
     public WebSecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+        this.userDetailsService = userDetailsService;       // Konstruktori, jolla UserDetailsService injektoidaan.
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {       // Määrittelee autentikoinnin konfiguraation
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());   // Käytetään BCrypt-salausta salasanoille
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**")) // CSRF pois vain REST API:ltä
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**")) // Poistaa CSRF-suojauksen REST API -pyynnöiltä
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/koti", "/login").permitAll()
-                        .requestMatchers("/deleteGame/**").hasAuthority("ADMIN") // MVC DELETE
-                        .requestMatchers(HttpMethod.DELETE, "/api/boardgames/**").hasAuthority("ADMIN") // REST DELETE
+                        .requestMatchers("/css/**", "/koti", "/login").permitAll()  // Sallii kaikille pääsyn tyylitiedostoihin, kotisivuun ja login-sivulle
+                        .requestMatchers("/deleteGame/**").hasAuthority("ADMIN") // MVC DELETE vaatii ADMIN-roolin
+                        .requestMatchers(HttpMethod.DELETE, "/api/boardgames/**").hasAuthority("ADMIN") // REST DELETE vaatii ADMIN-roolin
                         .requestMatchers("/api/**").permitAll()  // muut API:t sallitaan kaikille
-                        .anyRequest().authenticated())
+                        .anyRequest().authenticated()) // Kaikki muu vaatii kirjautumisen
 
                 .formLogin(form -> form
                         .loginPage("/login")                                        // oma login-sivu
-                        .defaultSuccessUrl("/koti", true)                       // loginin jälkeen home
+                        .defaultSuccessUrl("/koti", true)                      // Kirjautumisen jälkeen ohjataan kotisivulle
                         .permitAll()
                 )
 
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/koti")                          // logout jälkeen booklist
-                        .invalidateHttpSession(true)
+                        .logoutSuccessUrl("/koti")                          // Logoutin jälkeen ohjataan kotisivulle
+                        .invalidateHttpSession(true)                        // Tuhoa sessio
                         .permitAll()
                 )
 
@@ -55,9 +55,7 @@ public class WebSecurityConfig {
                             response.sendRedirect("/koti");
                         })
                 );
-                
-                //.headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
-        return http.build();
+        return http.build();    // Rakennetaan ja palautetaan SecurityFilterChain
     }
 }

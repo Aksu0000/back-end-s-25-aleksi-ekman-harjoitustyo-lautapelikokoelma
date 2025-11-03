@@ -1,23 +1,33 @@
 <div th:fragment="mainNavbar">
-    <!-- navbar.html (Bootstrap 4) -->
+<!-- Tämä on fragmentti, jota voidaan liittää muihin näkymiin (esim. layoutissa) -->
+
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #1b2631;">
+    <!-- Bootstrap 4 navbar, tummat värit ja responsiivinen laajennus -->
+
         <a class="navbar-brand" th:href="@{/}">Boardgames</a>
+        <!-- Sovelluksen logo/linkki kotisivulle -->
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <!-- Responsiivinen nappi pienillä näytöillä, jolla navbar voidaan laajentaa/pienentää -->
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
+            <!-- Navbarin linkit, oikealla (ml-auto) -->
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/}">Etusivu</a>
                 </li>
+                <!-- Kaikki näkevät kotisivun linkin -->
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link" th:href="@{/boardgamelist}">Pelilista</a>
                 </li>
+                <!-- Näkyy vain kirjautuneille käyttäjille -->
                 <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                     <a class="nav-link" th:href="@{/add}">Lisää peli</a>
                 </li>
+                <!-- Näkyy vain ADMIN-roolille, mahdollistaa pelin lisäämisen -->
 
                 <!-- Käyttäjä kirjautuneena -->
                 <li class="nav-item" sec:authorize="isAuthenticated()">
@@ -26,11 +36,13 @@
                         <button type="submit" class="btn btn-outline-light btn-sm">Kirjaudu ulos</button>
                     </form>
                 </li>
+                <!-- Näytetään kirjautuneen käyttäjän nimi ja logout -->
 
                 <!-- Käyttäjä ei kirjautunut -->
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
                     <a class="btn btn-outline-light btn-sm" th:href="@{/login}">Kirjaudu sisään</a>
                 </li>
+                <!-- Näytetään login-nappi, jos käyttäjä ei ole kirjautunut -->
             </ul>
         </div>
     </nav>

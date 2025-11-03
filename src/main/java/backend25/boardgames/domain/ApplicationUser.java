@@ -1,15 +1,15 @@
-package backend25.boardgames.domain;
+package backend25.boardgames.domain;    // Määrittelee paketin, jossa luokka sijaitsee. Tämä auttaa Spring Bootia ja Javaa löytämään luokan.
 
-import jakarta.persistence.*;
+import jakarta.persistence.*;   // Tuodaan JPA-annotaatiot, joita käytetään tietokantataulujen ja -sarakkeiden määrittelyyn.
 
-@Entity
-@Table(name="application_user")
-public class ApplicationUser {
+@Entity       // Merkitsee luokan JPA-entiteetiksi eli tietokantataulukon malliksi.
+@Table(name="application_user")     // Määrittää, että tämä entiteetti tallennetaan tietokantaan tauluna "application_user".
+public class ApplicationUser {  // Luokan määritelmä käyttäjää varten.
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, updatable = false)
-	private Long id;
+    @Id // Määrittää kentän primääriavaimeksi.
+    @GeneratedValue(strategy = GenerationType.IDENTITY)     // Automaattisesti generoidaan ID tietokannan hallinnan avulla (esim. AUTO_INCREMENT).
+	@Column(name = "id", nullable = false, updatable = false)   // Sarakkeen nimi tietokannassa on "id", ei voi olla null ja sitä ei voi muuttaa luomisen jälkeen.
+	private Long id;        // Tallentaa käyttäjän yksilöllisen tunnisteen (ID).
 
     @Column(name = "firstname", nullable = false)
     private String firstName;
@@ -17,20 +17,19 @@ public class ApplicationUser {
     @Column(name = "lastname", nullable = false)
     private String lastName;
 	
-	// Username with unique constraint
-	@Column(name = "username", nullable = false, unique = true)
+	@Column(name = "username", nullable = false, unique = true)     // käyttäjänimi yksilöllisellä (uniikilla) constraintilla
 	private String username;
 	
 	@Column(name = "application_password", nullable = false)
-	private String passwordHash;
+	private String passwordHash;        // Tallentaa käyttäjän salasanan hashatun version tietoturvan vuoksi.
 	
 	@Column(name = "application_role", nullable = false)
 	private String role;
 
-    public ApplicationUser() {
+    public ApplicationUser() {      // Tyhjä konstruktori, jota JPA tarvitsee entiteetin luomiseen.
     }
 
-    public ApplicationUser(String firstName, String lastName, String username, String passwordHash, String role) {
+    public ApplicationUser(String firstName, String lastName, String username, String passwordHash, String role) {   // Konstruktori, jolla voidaan luoda käyttäjäobjekti valmiilla tiedoilla.
         super();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -87,7 +86,7 @@ public class ApplicationUser {
         this.role = role;
     }
 
-    @Override
+    @Override       // Ylikirjoittaa toString-metodin, jotta objektin tiedot voidaan tulostaa helposti esimerkiksi debuggausta varten.
     public String toString() {
         return "AppUser [id=" + id + ", username=" + username + ", passwordHash=" + passwordHash + ", role=" + role
                 + "]";

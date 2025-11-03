@@ -10,8 +10,8 @@
 
 <body>
 
-    <!-- Sisällytä navigointipalkki -->
     <div th:replace="~{fragments/navbar :: mainNavbar}"></div>
+    <!-- Sisällytetään navigointipalkki navbar-fragmentista -->
 
     <div class="container text-center mt-5">
         <h2 class="mb-3">Lisää uusi lautapeli kokoelmaan</h2>
@@ -40,6 +40,7 @@
             <select id="genrelist" th:field="*{genre}" class="form-control">
                 <option th:each="genre: ${genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
             </select>
+            <!-- Dropdown, jossa valitaan genre tietokannasta -->
             <br>
             <label for="imageUrl">Kuvan URL:</label>
             <input type="text" id="imageUrl" th:field="*{imageUrl}" class="form-control" placeholder="https://..." />

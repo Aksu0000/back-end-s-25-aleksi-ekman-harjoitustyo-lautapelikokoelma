@@ -1,14 +1,11 @@
 package backend25.boardgames.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;      // Tuodaan validointianotoinnit (NotEmpty, NotNull, Min, Size) käyttäjältä tulevien arvojen tarkistamiseen.
 
-@Entity
+@Entity     // Merkitsee luokan JPA-entiteetiksi eli tietokantataulukon malliksi.
 @Table(name = "game")
-public class Boardgame {
+public class Boardgame {    // Luokka kuvaa yksittäistä lautapeliä.
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,10 +39,10 @@ public class Boardgame {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    public Boardgame() {
+    public Boardgame() {        // Tyhjä konstruktori JPA:lle.
     }
 
-    public Boardgame(String title, Integer publicationYear, Integer minPlayers, Integer maxPlayers, Genre genre, String imageUrl) {
+    public Boardgame(String title, Integer publicationYear, Integer minPlayers, Integer maxPlayers, Genre genre, String imageUrl) { // Konstruktori, jolla voidaan luoda Boardgame-olio valmiilla tiedoilla.
         this.title = title;
         this.publicationYear = publicationYear;
         this.minPlayers = minPlayers;
@@ -110,7 +107,7 @@ public class Boardgame {
         this.genre = genre;
     }
 
-    @Override
+    @Override       // Ylikirjoitetaan toString-metodi, jotta objektin tiedot voidaan tulostaa helposti. Näyttää pelin nimen, julkaisuvuoden ja genren nimen (tai "Ei genreä" jos null).
     public String toString() {
         return title + publicationYear + " - " +
                 (genre != null ? genre.getName() : "Ei genreä");
