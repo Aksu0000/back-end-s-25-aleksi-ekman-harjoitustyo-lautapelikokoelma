@@ -11,7 +11,7 @@
 <body>
 
     <!-- Sisällytä navigointipalkki -->
-    <div th:replace="fragments/navbar :: mainNavbar"></div>
+    <div th:replace="~{fragments/navbar :: mainNavbar}"></div>
 
     <div class="container text-center mt-5">
         <h2 class="mb-3">Lautapelit</h2>
@@ -39,12 +39,12 @@
                 <td sec:authorize="hasAuthority('ADMIN')">
                     <a th:href="@{/deleteBoardgame/{id}(id=${boardgame.id})}" class="btn btn-danger">Poista</a>
                 </td>
-                <td>
+                <td sec:authorize="hasAuthority('ADMIN')">
                     <a th:href="@{/editBoardgame/{id}(id=${boardgame.id})}" class="btn btn-warning">Muokkaa</a>
                 </td>
             </tr>
         </table>
-        <a href="/add" class="btn btn-success">Lisää</a>
+        <a sec:authorize="hasAuthority('ADMIN')" href="/add" class="btn btn-success">Lisää</a>
         <br>
         <!-- <a th:href="@{/koti}" class="btn btn-info mt-3">Etusivulle</a> -->
     </div>

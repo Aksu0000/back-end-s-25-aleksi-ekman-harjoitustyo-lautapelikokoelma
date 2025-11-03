@@ -11,7 +11,7 @@
 <body>
 
     <!-- Sisällytä navigointipalkki -->
-    <div th:replace="fragments/navbar :: mainNavbar"></div>
+    <div th:replace="~{fragments/navbar :: mainNavbar}"></div>
 
     <div class="container text-center mt-5">
         <h2 class="mb-3">Muokkaa lautapelin tietoja</h2>
@@ -20,23 +20,23 @@
     <form th:object="${editBoardgame}" th:action="@{/saveEditedBoardgame}" action="#" method="post">
         <input type="hidden" th:field="*{id}" />
 
-        <label for="title">Nimi</label>
+        <label for="title" class="form-label">Nimi</label>
         <input type="text" id="title" th:field="*{title}" />
-        <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error</div>
+        <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
         <br>
-        <label for="publicationYear">Julkaisuvuosi</label>
+        <label for="publicationYear" class="form-label">Julkaisuvuosi</label>
         <input type="text" id="publicationYear" th:field="*{publicationYear}" />
-        <div th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}">Error</div>
+        <div class="text-danger" th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}"></div>
         <br>
-        <label for="minPlayers">Pelaajien miniminäärä</label>
+        <label for="minPlayers" class="form-label">Pelaajien miniminäärä</label>
         <input type="text" id="minPlayers" th:field="*{minPlayers}" />
-        <div th:if="${#fields.hasErrors('minPlayers')}" th:errors="*{minPlayers}">Error</div>
+        <div class="text-danger" th:if="${#fields.hasErrors('minPlayers')}" th:errors="*{minPlayers}"></div>
         <br>
-        <label for="maxPlayers">Pelaajien maksimimäärä</label>
+        <label for="maxPlayers" class="form-label">Pelaajien maksimimäärä</label>
         <input type="text" id="maxPlayers" th:field="*{maxPlayers}" />
-        <div th:if="${#fields.hasErrors('maxPlayers')}" th:errors="*{maxPlayers}">Error</div>
+        <div class="text-danger" th:if="${#fields.hasErrors('maxPlayers')}" th:errors="*{maxPlayers}"></div>
         <br>
-        <label for="genrelist">Genre</label>
+        <label for="genrelist" class="form-label">Genre</label>
         <select id="genrelist" th:field="*{genre}" class="form-control">
             <option th:each="genre: ${genres}" th:value="${genre.id}" th:text="${genre.name}"></option>
         </select>

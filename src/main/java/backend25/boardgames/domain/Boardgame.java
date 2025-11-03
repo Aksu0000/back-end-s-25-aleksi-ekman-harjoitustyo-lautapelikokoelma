@@ -16,27 +16,27 @@ public class Boardgame {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Syötä lautapelin nimi")
-    @Size(min = 1, max = 250)
+    @NotEmpty(message = "{NotEmpty.boardgame.title}")
+    @Size(min = 1, max = 250, message = "{Size.boardgame.title}")
     @Column(name = "title", nullable = false)
     private String title;
 
-    @NotNull(message = "Syötä lautapelin julkaisuvuosi")
-    @Min(value = 0, message = "Lautapelin julkaisuvuosi ei voi olla negatiivinen")
+    @NotNull(message = "{NotNull.boardgame.publicationYear}")
+    @Min(value = 0, message = "{Min.boardgame.publicationYear}")
     @Column(name = "publication_year", nullable = false)
     private Integer publicationYear;
 
-    @NotNull(message = "Syötä pelaajien minimi määrä")
-    @Min(value = 1, message = "Pelaajia oltava vähintään 1")
+    @NotNull(message = "{NotNull.boardgame.minPlayers}")
+    @Min(value = 1, message = "{Min.boardgame.minPlayers}")
     @Column(name = "min_players", nullable = false)
     private Integer minPlayers;
 
-    @NotNull(message = "Syötä pelaajien maksimi määrä")
-    @Min(value = 1, message = "Pelaajia oltava vähintään 1")
+    @NotNull(message = "{NotNull.boardgame.maxPlayers}")
+    @Min(value = 1, message = "{Min.boardgame.maxPlayers}")
     @Column(name = "max_players", nullable = false)
     private Integer maxPlayers;
 
-    @NotNull(message = "Valitse genre")
+    @NotNull(message = "{NotNull.boardgame.genre}")
     @ManyToOne
     @JoinColumn(name="genre_id")
     private Genre genre;

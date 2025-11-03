@@ -2,11 +2,8 @@ package backend25.boardgames.web;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
@@ -14,8 +11,8 @@ import backend25.boardgames.domain.Boardgame;
 import backend25.boardgames.domain.BoardgameRepository;
 import backend25.boardgames.domain.GenreRepository;
 import jakarta.validation.Valid;
+import java.beans.PropertyEditorSupport;
 
-//import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 
@@ -28,6 +25,24 @@ public class BoardgameController {
 		this.repository = repository;
         this.crepository = crepository;
 	}
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Integer.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                try {
+                    if (text == null || text.trim().isEmpty()) {
+                        setValue(null);
+                    } else {
+                        setValue(Integer.parseInt(text));
+                    }
+                } catch (NumberFormatException e) {
+                    setValue(null); // Tyhjennä kenttä, jolloin @NotNull aktivoituu
+                }
+            }
+        });
+    }
 
     @GetMapping(value= {"/boardgamelist"})
 	public String boardgameList(Model model) {
